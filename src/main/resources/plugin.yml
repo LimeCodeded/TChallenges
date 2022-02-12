@@ -1,0 +1,10 @@
+name: TChallenges
+version: '${project.version}'
+main: de.webcode.tchallenges.TChallenges
+api-version: 1.18
+authors: [ TheWebcode ]
+description: TChallenges Plugin mit mehreren Challenges
+commands:
+  suicide:
+  killplayer:
+  settings:
