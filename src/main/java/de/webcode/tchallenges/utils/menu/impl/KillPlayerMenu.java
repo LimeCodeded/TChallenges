@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
@@ -78,9 +79,11 @@ public class KillPlayerMenu extends PaginatedMenu {
                 if (players.get(index) != null){
                     ItemStack playerItem = new ItemStack(Material.PLAYER_HEAD, 1);
                     ItemMeta playerMeta = playerItem.getItemMeta();
-                    playerMeta.displayName(Component.text("§e" + players.get(index).getDisplayName()));
+                    SkullMeta skullMeta = (SkullMeta) playerMeta;
+                    skullMeta.displayName(Component.text("§e" + players.get(index).getDisplayName()));
 
-                    playerMeta.getPersistentDataContainer().set(new NamespacedKey(TChallenges.getInstance(), "uuid"), PersistentDataType.STRING, players.get(index).getUniqueId().toString());
+                    skullMeta.getPersistentDataContainer().set(new NamespacedKey(TChallenges.getInstance(), "uuid"), PersistentDataType.STRING, players.get(index).getUniqueId().toString());
+                    skullMeta.setOwningPlayer(players.get(index));
                     playerItem.setItemMeta(playerMeta);
 
                     inventory.addItem(playerItem);

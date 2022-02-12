@@ -40,6 +40,16 @@ public class ServerSettingsMenu extends Menu {
             case BARRIER:
                 new SettingMenu(playerMenuUtility).open();
                 break;
+            case PLAYER_HEAD:
+
+                String displayName = e.getCurrentItem().getItemMeta().getDisplayName();
+                if (displayName.contains("Spieler")) {
+                    new PlayerMenu(playerMenuUtility).open();
+                    return;
+                }else{
+
+                }
+                break;
         }
 
     }

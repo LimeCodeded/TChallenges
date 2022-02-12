@@ -47,6 +47,7 @@ public class SuicideConfirmMenu extends Menu {
         ItemStack yes = new ItemStack(Material.EMERALD, 1);
         ItemMeta yes_meta = yes.getItemMeta();
         yes_meta.displayName(Component.text("§aJa"));
+        yes.setItemMeta(yes_meta);
         ItemStack no = new ItemStack(Material.BARRIER, 1);
         ItemMeta no_meta = no.getItemMeta();
         no_meta.displayName(Component.text("§cNein"));
