@@ -46,8 +46,8 @@ public class ServerSettingsMenu extends Menu {
                 if (displayName.contains("Spieler")) {
                     new PlayerMenu(playerMenuUtility).open();
                     return;
-                }else{
-
+                }else if(displayName.contains("Welt-Einstellungen")){
+                    new WorldSettingsMenu(playerMenuUtility).open();
                 }
                 break;
         }
@@ -57,8 +57,8 @@ public class ServerSettingsMenu extends Menu {
     @Override
     public void setMenuItems() {
         ItemFactory itemFactory = TChallenges.getInstance().getItemFactory();
-        ItemStack deleteWorld = itemFactory.getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY5MTk2YjMzMGM2Yjg5NjJmMjNhZDU2MjdmYjZlY2NlNDcyZWFmNWM5ZDQ0Zjc5MWY2NzA5YzdkMGY0ZGVjZSJ9fX0=");
-        itemFactory.setDisplayName(deleteWorld, "§cWelt neu generieren");
+        ItemStack worldSettings = itemFactory.getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY5MTk2YjMzMGM2Yjg5NjJmMjNhZDU2MjdmYjZlY2NlNDcyZWFmNWM5ZDQ0Zjc5MWY2NzA5YzdkMGY0ZGVjZSJ9fX0=");
+        itemFactory.setDisplayName(worldSettings, "§aWelt-Einstellungen");
 
         ItemStack players = itemFactory.create(Material.PLAYER_HEAD, "§aSpieler");
         ItemMeta itemMeta = players.getItemMeta();
@@ -69,7 +69,7 @@ public class ServerSettingsMenu extends Menu {
         ItemStack back = itemFactory.create(Material.BARRIER, "§cZurück");
 
 
-        inventory.setItem(10, deleteWorld);
+        inventory.setItem(10, worldSettings);
         inventory.setItem(12, players);
         inventory.setItem(22, back);
 

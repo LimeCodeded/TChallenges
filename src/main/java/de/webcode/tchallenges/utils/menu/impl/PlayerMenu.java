@@ -2,7 +2,6 @@ package de.webcode.tchallenges.utils.menu.impl;
 
 import de.webcode.tchallenges.TChallenges;
 import de.webcode.tchallenges.utils.menu.PaginatedMenu;
-import de.webcode.tchallenges.utils.menu.playermenuutilitys.KillPlayerMenuUtility;
 import de.webcode.tchallenges.utils.menu.playermenuutilitys.PlayerMenuUtility;
 import de.webcode.tchallenges.utils.menu.playermenuutilitys.TargetPlayerMenuUtility;
 import net.kyori.adventure.text.Component;

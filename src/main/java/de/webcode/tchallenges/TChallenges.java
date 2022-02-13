@@ -31,8 +31,7 @@ public final class TChallenges extends JavaPlugin {
     /*
     * Für Server Menü:
     * Gamerules
-    * Spieler
-    * Welt neu generieren
+    * Welt
     * Commands
     * */
 

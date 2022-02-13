@@ -3,8 +3,12 @@ package de.webcode.tchallenges.utils.menu.impl;
 import de.webcode.tchallenges.TChallenges;
 import de.webcode.tchallenges.utils.ItemFactory;
 import de.webcode.tchallenges.utils.menu.PaginatedMenu;
+import de.webcode.tchallenges.utils.menu.anvilgui.AnvilGUI;
 import de.webcode.tchallenges.utils.menu.playermenuutilitys.TargetPlayerMenuUtility;
+import net.kyori.adventure.text.Component;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,17 +32,63 @@ public class PlayerSettingMenu extends PaginatedMenu {
 
     @Override
     public void handleMenu(InventoryClickEvent e) {
-        if (e.getCurrentItem().getType().equals(Material.BARRIER) && e.getCurrentItem().getItemMeta().getDisplayName().contains("Schließen")) {
+        String displayName = e.getCurrentItem().getItemMeta().getDisplayName();
+        if (e.getCurrentItem().getType().equals(Material.BARRIER) && displayName.contains("Schließen")) {
             new PlayerMenu(playerMenuUtility).open();
+            return;
+        }
+
+        Player player = (Player) e.getWhoClicked();
+        Player target = ((TargetPlayerMenuUtility) playerMenuUtility).getTarget();
+
+        switch (ChatColor.stripColor(displayName).toLowerCase()) {
+            case "spieler töten":
+                new KillConfirmMenu((TargetPlayerMenuUtility) playerMenuUtility).open();
+                break;
+            case "spieler hierher teleportieren":
+                player.closeInventory();
+                player.sendMessage(TChallenges.PREFIX + String.format("§aDu hast §6%s §azu dir Teleportiert!", target.getName()));
+                target.teleport(player);
+                break;
+            case "zu spieler teleportieren":
+                player.closeInventory();
+                player.sendMessage(TChallenges.PREFIX + String.format("§aDu wurdest zu §6%s §ateleportiert!", target.getName()));
+                player.teleport(target);
+                break;
+            case "berechtigungen verwalten":
+                //TODO
+                break;
+            case "gamemode setzen":
+                TargetPlayerMenuUtility targetPlayerMenuUtility = (TargetPlayerMenuUtility) playerMenuUtility;
+                new PlayerSelectGameModeMenu(targetPlayerMenuUtility).open();
+                break;
+            case "inventar ansehen":
+                player.openInventory(target.getInventory());
+                player.sendMessage(TChallenges.PREFIX + String.format("§aDu hast das Inventar von §6%s §ageöffnet!", target.getName()));
+                break;
+            case "spieler kicken":
+                new AnvilGUI.Builder().text("§eGrund für den Kick:").plugin(TChallenges.getInstance()).onComplete((p, text) -> {
+                    player.sendMessage(TChallenges.PREFIX + String.format("§6%s §awurde gekickt", target.getName()));
+                    target.kick(Component.text(text.replace("&", "§")));
+                    return AnvilGUI.Response.close();
+                }).open(player);
+                break;
+            case "spieler bannen":
+                new AnvilGUI.Builder().text("§eGrund für den Ban:").plugin(TChallenges.getInstance()).onComplete((p, text) -> {
+                    player.sendMessage(TChallenges.PREFIX + String.format("§6%s §awurde gebannt", target.getName()));
+                    target.banPlayer(text);
+                    return AnvilGUI.Response.close();
+                }).open(player);
+                break;
         }
 
         if (e.getCurrentItem().getType().equals(Material.DARK_OAK_BUTTON)) {
-            if (e.getCurrentItem().getItemMeta().getDisplayName().contains("<")) {
+            if (displayName.contains("<")) {
                 if (page != 0) {
                     page = page - 1;
                     super.open();
                 }
-            } else if (e.getCurrentItem().getItemMeta().getDisplayName().contains(">")) {
+            } else if (displayName.contains(">")) {
                 if (!((page + 1) >= pageSize)) {
                     page = page + 1;
                     super.open();

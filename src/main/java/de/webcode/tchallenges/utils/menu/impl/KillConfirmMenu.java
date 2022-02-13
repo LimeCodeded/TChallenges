@@ -2,8 +2,7 @@ package de.webcode.tchallenges.utils.menu.impl;
 
 import de.webcode.tchallenges.TChallenges;
 import de.webcode.tchallenges.utils.menu.Menu;
-import de.webcode.tchallenges.utils.menu.playermenuutilitys.KillPlayerMenuUtility;
-import de.webcode.tchallenges.utils.menu.playermenuutilitys.PlayerMenuUtility;
+import de.webcode.tchallenges.utils.menu.playermenuutilitys.TargetPlayerMenuUtility;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -12,14 +11,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 
 public class KillConfirmMenu extends Menu {
-    public KillConfirmMenu(PlayerMenuUtility playerMenuUtility) {
+    public KillConfirmMenu(TargetPlayerMenuUtility playerMenuUtility) {
         super(playerMenuUtility);
     }
 
     @Override
     public String getMenuName() {
-        KillPlayerMenuUtility killPlayerMenuUtility = (KillPlayerMenuUtility) playerMenuUtility;
-        return "§a" + killPlayerMenuUtility.getPlayerToKill().getName() + " §etöten?";
+        TargetPlayerMenuUtility killPlayerMenuUtility = (TargetPlayerMenuUtility) playerMenuUtility;
+        return "§a" + killPlayerMenuUtility.getTarget().getName() + " §etöten?";
     }
 
     @Override
@@ -33,7 +32,7 @@ public class KillConfirmMenu extends Menu {
         switch (e.getCurrentItem().getType()){
             case EMERALD:
                 e.getWhoClicked().closeInventory();
-                Player toKill = ((KillPlayerMenuUtility) playerMenuUtility).getPlayerToKill();
+                Player toKill = ((TargetPlayerMenuUtility) playerMenuUtility).getTarget();
                 toKill.setHealth(0);
                 e.getWhoClicked().sendMessage(TChallenges.PREFIX + String.format("§6%s §awurde getötet", toKill.getName()));
                 break;

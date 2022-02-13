@@ -2,8 +2,8 @@ package de.webcode.tchallenges.utils.menu.impl;
 
 import de.webcode.tchallenges.TChallenges;
 import de.webcode.tchallenges.utils.menu.PaginatedMenu;
-import de.webcode.tchallenges.utils.menu.playermenuutilitys.KillPlayerMenuUtility;
 import de.webcode.tchallenges.utils.menu.playermenuutilitys.PlayerMenuUtility;
+import de.webcode.tchallenges.utils.menu.playermenuutilitys.TargetPlayerMenuUtility;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -44,7 +44,7 @@ public class KillPlayerMenu extends PaginatedMenu {
             PlayerMenuUtility playerMenuUtility = TChallenges.getInstance().getPlayerMenuUtilityManager().getPlayerMenuUtility(p);
             Player target = Bukkit.getPlayer(UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(TChallenges.getInstance(), "uuid"), PersistentDataType.STRING)));
 
-            new KillConfirmMenu(new KillPlayerMenuUtility(playerMenuUtility.getOwner(), target)).open();
+            new KillConfirmMenu(new TargetPlayerMenuUtility(playerMenuUtility.getOwner(), target)).open();
 
         }else if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
 

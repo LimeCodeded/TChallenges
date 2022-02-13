@@ -3,6 +3,7 @@ package de.webcode.tchallenges.utils;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -91,6 +92,17 @@ public class ItemFactory {
         ItemMeta meta = itemStack.getItemMeta();
         meta.displayName(Component.text(displayName));
         itemStack.setItemMeta(meta);
+
+        return itemStack;
+    }
+
+    public ItemStack addLore(ItemStack itemStack, String... lore){
+        List<String> strings = Arrays.asList(lore);
+        ArrayList<Component> itemLore = stringListToTextComponent(strings);
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.lore(itemLore);
+        itemStack.setItemMeta(itemMeta);
 
         return itemStack;
     }
