@@ -56,7 +56,8 @@ public class PlayerSettingMenu extends PaginatedMenu {
                 player.teleport(target);
                 break;
             case "berechtigungen verwalten":
-                //TODO
+                TargetPlayerMenuUtility t = (TargetPlayerMenuUtility) playerMenuUtility;
+                new ManagePlayerPermissionsMenu(t).open();
                 break;
             case "gamemode setzen":
                 TargetPlayerMenuUtility targetPlayerMenuUtility = (TargetPlayerMenuUtility) playerMenuUtility;
