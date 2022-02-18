@@ -21,11 +21,28 @@ public class PermissionCommand implements CommandExecutor, PermissionManagement 
         Player player = (Player) sender;
 
         if(!player.isOp()){
-            player.sendMessage("§cDu hast zu wenig Berechtigungen, um diesen Command auszuführen!");
+            player.sendMessage(TChallenges.PREFIX + "§cDu hast zu wenig Berechtigungen, um diesen Command auszuführen!");
             return false;
         }
 
-        //permission <add|remove|get> <Player> <Permission>
+        //permission <add|remove|get|list> <Player> <Permission>
+
+        if (args.length == 2 && args[0].equalsIgnoreCase("list")) {
+            Player target = Bukkit.getPlayer(args[1]);
+
+            if(target == null){
+                player.sendMessage(TChallenges.PREFIX + "§cDer Spieler wurde nicht gefunden!");
+                return false;
+            }
+
+            StringBuilder b = new StringBuilder();
+
+            target.getEffectivePermissions().forEach(permission -> {
+                b.append(String.format("§e%s §7 -> §a%s", permission.getPermission(), permission.getValue()) + "\n");
+            });
+
+            player.sendMessage(b.toString());
+        }
 
         if (args.length == 3 && args[0].equalsIgnoreCase("get")) {
             Player target = Bukkit.getPlayer(args[1]);

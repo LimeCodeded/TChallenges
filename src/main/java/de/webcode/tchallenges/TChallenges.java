@@ -1,10 +1,8 @@
 package de.webcode.tchallenges;
 
-import de.webcode.tchallenges.commands.OPMeCommand;
-import de.webcode.tchallenges.commands.PermissionCommand;
-import de.webcode.tchallenges.commands.SettingCommand;
-import de.webcode.tchallenges.commands.SuicideCommand;
+import de.webcode.tchallenges.commands.*;
 import de.webcode.tchallenges.event.Eventlistener;
+import de.webcode.tchallenges.utils.ChallengeTimer;
 import de.webcode.tchallenges.utils.ItemFactory;
 import de.webcode.tchallenges.utils.file.FileManager;
 import de.webcode.tchallenges.utils.menu.PlayerMenuUtilityManager;
@@ -22,6 +20,7 @@ public final class TChallenges extends JavaPlugin {
     private PlayerMenuUtilityManager playerMenuUtilityManager;
     private PermissionManager permissionManager;
     private FileManager fileManager;
+    private ChallengeTimer challengeTimer;
 
     @Override
     public void onEnable() {
@@ -31,10 +30,12 @@ public final class TChallenges extends JavaPlugin {
         this.playerMenuUtilityManager = new PlayerMenuUtilityManager();
         this.fileManager = new FileManager();
         this.permissionManager = new PermissionManager();
+        this.challengeTimer = new ChallengeTimer();
 
         registerCommands();
         registerEvents();
     }
+
 
     /*
     * Für Server Menü:
@@ -44,7 +45,6 @@ public final class TChallenges extends JavaPlugin {
     * */
 
     private void registerCommands(){
-        getCommand("opme").setExecutor(new OPMeCommand());
         getCommand("permission").setExecutor(new PermissionCommand());
         getCommand("settings").setExecutor(new SettingCommand());
         getCommand("suicide").setExecutor(new SuicideCommand());
@@ -55,6 +55,10 @@ public final class TChallenges extends JavaPlugin {
         PluginManager pm = Bukkit.getPluginManager();
 
         pm.registerEvents(new Eventlistener(), this);
+    }
+
+    public ChallengeTimer getChallengeTimer() {
+        return challengeTimer;
     }
 
     public PermissionManager getPermissionManager() {

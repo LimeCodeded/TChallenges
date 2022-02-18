@@ -37,6 +37,9 @@ public class SettingMenu extends Menu {
             case COMMAND_BLOCK:
                 new ServerSettingsMenu(playerMenuUtility).open();
                 break;
+            case CLOCK:
+                new TimerMenu(playerMenuUtility).open();
+                break;
         }
     }
 

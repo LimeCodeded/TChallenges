@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,12 +44,38 @@ public class ManagePlayerPermissionsMenu extends PaginatedMenu implements Permis
             return;
         }
 
+        if (e.getCurrentItem().getType().equals(Material.DARK_OAK_BUTTON)) {
+            if (displayName.contains("<")) {
+                if (page != 0) {
+                    page = page - 1;
+                    super.open();
+                }
+            } else if (displayName.contains(">")) {
+
+                ArrayList<String> permissions = new ArrayList<>();
+
+                for (Permission permission : Permission.values()) {
+                    permissions.add(permission.getSavePath());
+                }
+
+                if (!((index + 1) >= permissions.size())) {
+                    page = page + 1;
+                    super.open();
+                }
+            }
+        }
+
         if (currentItem.getType().equals(Material.CHAIN_COMMAND_BLOCK)) {
             Player target = ((TargetPlayerMenuUtility) playerMenuUtility).getTarget();
             Permission permission = Permission.getByDisplayName(displayName);
-            boolean value = hasPermission(target, permission);
-            setPermission(target, permission, !value);
-            open();
+
+            if(permission != null){
+                boolean value = hasPermission(target, permission);
+                setPermission(target, permission, !value);
+                open();
+                return;
+            }
+
             return;
         }
 
@@ -78,21 +105,42 @@ public class ManagePlayerPermissionsMenu extends PaginatedMenu implements Permis
 
         addMenuBorder();
 
-        ArrayList<Permission> permissions = new ArrayList<>(Arrays.asList(Permission.values()));
+        ArrayList<String> permissions = new ArrayList<>();
+
+        for(Permission permission : Permission.values()){
+            permissions.add(permission.getDisplayName());
+        }
+
         for(int i = 0; i < getMaxItemsPerPage(); i++) {
             index = getMaxItemsPerPage() * page + i;
+
+            ItemStack[] contents = inventory.getContents();
+
+            boolean addBook = true;
+            if(contents != null){
+                for(int j = 0; j < contents.length; j++){
+                    if(contents[j] != null){
+                        if(contents[j].getType().equals(Material.WRITABLE_BOOK)) addBook = false;
+                    }else continue;
+                }
+            }
+
+            if(page == 0 && addBook){
+                ItemStack manual = itemFactory.create(Material.WRITABLE_BOOK, "§cManuell hinzufügen/entfernen");
+                manual = itemFactory.addLore(manual, "§7Linksklick = Hinzufügen", "§7Rechtsklick = Entfernen");
+                inventory.addItem(manual);
+            }
+
             if(!(index >= permissions.size())){
+                Permission perm = Permission.getByDisplayName(permissions.get(index));
                 if (permissions.get(index) != null){
-                    ItemStack permissionItem = itemFactory.create(Material.CHAIN_COMMAND_BLOCK, permissions.get(index).getDisplayName());
-                    boolean b = hasPermission(target, permissions.get(index));
+                    ItemStack permissionItem = itemFactory.create(Material.CHAIN_COMMAND_BLOCK, permissions.get(index));
+                    boolean b = hasPermission(target, perm.getSavePath());
                     permissionItem = itemFactory.addLore(permissionItem, "§7Zurzeit auf " + (b ? "§atrue" : "§cfalse"));
                     inventory.addItem(permissionItem);
                 }
             }else{
-                ItemStack manual = itemFactory.create(Material.WRITABLE_BOOK, "§cManuell hinzufügen/entfernen");
-                manual = itemFactory.addLore(manual, "§7Linksklick = Hinzufügen", "§7Rechtsklick = Entfernen");
-                inventory.addItem(manual);
-                break;
+
             }
         }
     }

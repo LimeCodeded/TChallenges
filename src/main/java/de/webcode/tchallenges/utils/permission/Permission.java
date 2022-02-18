@@ -3,9 +3,9 @@ package de.webcode.tchallenges.utils.permission;
 public enum Permission {
     PLACE_BLOCKS("tchallenges.permission.place_blocks", "permission_place_blocks", "Blöcke Platzieren"),
     BREAK_BLOCKS("tchallenges.permission.break_blocks", "permission_break_blocks", "Blöcke entfernen"),
-    OP_SELF("tchallenges.permission.op_self", "permission_op_self", "Selbst-OP"),
     COMMAND_SETTING("tchallenges.command.settings", "permission_command_settings", "Settings-Command"),
     COMMAND_SUICIDE("tchallenges.command.suicide", "permission_command_suicide", "Suicide-Command"),
+    COMMAND_KILL_PLAYER("tchallenges.command.killplayer", "permission_command_killplayer", "KillPlayer1-Command"),
     ;
     private String permissionName;
     private String savePath;
