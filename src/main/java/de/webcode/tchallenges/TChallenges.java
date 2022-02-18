@@ -1,9 +1,14 @@
 package de.webcode.tchallenges;
 
 import de.webcode.tchallenges.commands.*;
+import de.webcode.tchallenges.event.EventManager;
 import de.webcode.tchallenges.event.Eventlistener;
+import de.webcode.tchallenges.event.impl.PluginReadyEvent;
 import de.webcode.tchallenges.utils.ChallengeTimer;
 import de.webcode.tchallenges.utils.ItemFactory;
+import de.webcode.tchallenges.utils.challenge.ChallengeManager;
+import de.webcode.tchallenges.utils.challenge.api.TChallengesAPI;
+import de.webcode.tchallenges.utils.challenge.impl.DontJumpChallenge;
 import de.webcode.tchallenges.utils.file.FileManager;
 import de.webcode.tchallenges.utils.menu.PlayerMenuUtilityManager;
 import de.webcode.tchallenges.utils.permission.PermissionManager;
@@ -17,6 +22,8 @@ public final class TChallenges extends JavaPlugin {
     private static TChallenges instance;
 
     private ItemFactory itemFactory;
+    private TChallengesAPI tChallengesAPI;
+    private ChallengeManager challengeManager;
     private PlayerMenuUtilityManager playerMenuUtilityManager;
     private PermissionManager permissionManager;
     private FileManager fileManager;
@@ -27,6 +34,8 @@ public final class TChallenges extends JavaPlugin {
         instance = this;
 
         this.itemFactory = new ItemFactory();
+        this.tChallengesAPI = new TChallengesAPI();
+        this.challengeManager = new ChallengeManager();
         this.playerMenuUtilityManager = new PlayerMenuUtilityManager();
         this.fileManager = new FileManager();
         this.permissionManager = new PermissionManager();
@@ -34,6 +43,10 @@ public final class TChallenges extends JavaPlugin {
 
         registerCommands();
         registerEvents();
+
+        new PluginReadyEvent().call();
+
+        new DontJumpChallenge().enable();
     }
 
 
@@ -52,6 +65,9 @@ public final class TChallenges extends JavaPlugin {
     }
 
     private void registerEvents(){
+
+        EventManager.register(challengeManager);
+
         PluginManager pm = Bukkit.getPluginManager();
 
         pm.registerEvents(new Eventlistener(), this);
@@ -67,6 +83,14 @@ public final class TChallenges extends JavaPlugin {
 
     public FileManager getFileManager() {
         return fileManager;
+    }
+
+    public TChallengesAPI gettChallengesAPI() {
+        return tChallengesAPI;
+    }
+
+    public ChallengeManager getChallengeManager() {
+        return challengeManager;
     }
 
     public ItemFactory getItemFactory() {

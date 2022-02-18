@@ -40,6 +40,9 @@ public class SettingMenu extends Menu {
             case CLOCK:
                 new TimerMenu(playerMenuUtility).open();
                 break;
+            case WRITABLE_BOOK:
+                new ChallengeEnableMenu(playerMenuUtility).open();
+                break;
         }
     }
 
