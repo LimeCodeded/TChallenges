@@ -5,7 +5,7 @@ public enum Permission {
     BREAK_BLOCKS("tchallenges.permission.break_blocks", "permission_break_blocks", "Blöcke entfernen"),
     COMMAND_SETTING("tchallenges.command.settings", "permission_command_settings", "Settings-Command"),
     COMMAND_SUICIDE("tchallenges.command.suicide", "permission_command_suicide", "Suicide-Command"),
-    COMMAND_KILL_PLAYER("tchallenges.command.killplayer", "permission_command_killplayer", "KillPlayer1-Command"),
+    COMMAND_KILL_PLAYER("tchallenges.command.killplayer", "permission_command_killplayer", "KillPlayer-Command"),
     ;
     private String permissionName;
     private String savePath;
