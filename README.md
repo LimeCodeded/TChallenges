@@ -71,6 +71,8 @@ In der Klasse müssen nun einige Methoden Implementiert werden:
 
 ```java
 public class Challenge extends TChallenge {
+    
+    
     @Override
     public void onChallengeEnable() {
         //Ausgeführt wenn die Challenge aktiviert wird
@@ -116,6 +118,12 @@ public class Challenge extends TChallenge {
         //Material das als Icon für die Challenge im Inventar verwendet 
         //werden soll
         return Material.DIAMOND;
+    }
+
+    @Override
+    public JavaPlugin getInstance() {
+        //Instanz zur Paper Hauptklasse
+        return Main.getInstance();
     }
 }
 ```
