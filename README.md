@@ -71,11 +71,11 @@ In der Klasse müssen nun einige Methoden Implementiert werden:
 
 ```java
 public class Challenge extends TChallenge {
-
     @Override
     public void onChallengeEnable() {
         //Ausgeführt wenn die Challenge aktiviert wird
     }
+
 
     @Override
     public void onChallengeDisable() {
@@ -83,20 +83,25 @@ public class Challenge extends TChallenge {
     }
 
     @Override
-    public TChallengeKey getKey() {
-        //Benötigter Challenge Key
+    public ArrayList<Listener> getEventlisteners() {
+        //Eventlistener der Challenge
         return null;
     }
 
     @Override
+    public ArrayList<TChallengeCommand> getCommands() {
+        //Commands der Challenge
+        return null;
+    }
+    @Override
     public String getName() {
-        //Name der Challenge, hier: Meine Challenge
-        return "Meine Challenge";
+        //Name der Challenge
+        return "My Challenge";
     }
 
     @Override
     public String getAuthor() {
-        //Name des Authors der die Challenge programmiert hat
+        //Entwickler der Challenge
         return "TheWebcode";
     }
 
@@ -108,60 +113,9 @@ public class Challenge extends TChallenge {
 
     @Override
     public Material getChallengeIcon() {
-        //Ein Material, welches als Item im Challenge-Inventar angezeigt 
+        //Material das als Icon für die Challenge im Inventar verwendet 
         //werden soll
-        return Material.EMERALD;
-    }
-}
-```
-
-### Den Challenge Key erstellen
-
-Der Challenge Key wird für einige wichtige Informationen über die Challenge verwendet.
-Man benötigt zum erstellen eines neuen Keys nur den Namen der Challenge. Dieser darf keine Leerzeichen, Sonderzeichen, oder Spigot/Paper
-Farbcodes enthalten.
-
-```java
-TChallengeKey key = new TChallengeKey("meinechallenge");
-```
-Die ganze Klasse sieht nun wiefolgt aus:
-
-```java
-public class Challenge extends TChallenge {
-
-    @Override
-    public void onChallengeEnable() {
-
-    }
-
-    @Override
-    public void onChallengeDisable() {
-
-    }
-
-    @Override
-    public TChallengeKey getKey() {
-        return new TChallengeKey("meinechallenge");
-    }
-
-    @Override
-    public String getName() {
-        return "Meine Challenge";
-    }
-
-    @Override
-    public String getAuthor() {
-        return "TheWebcode";
-    }
-
-    @Override
-    public String getVersion() {
-        return "1.0";
-    }
-
-    @Override
-    public Material getChallengeIcon() {
-        return Material.EMERALD;
+        return Material.DIAMOND;
     }
 }
 ```
@@ -186,26 +140,15 @@ Dieser wird die Challenge, und der jeweilige Eventlistener übergeben. Es wird e
 Methode zu tun:
 
 ```java
-@Override
-public void onChallengeEnable() {
-    TChallengesAPI api = TChallengesAPI.getInstance();
-    
-    api.registerListener(new Eventlistener(), this);
-}
-```
+    @Override
+    public ArrayList<Listener> getEventlisteners() {
+        ArrayList<Listener> listeners = new ArrayList<>();
+        listeners.add(new Eventlistener());
 
-Es ist auch möglich mehrere Eventlistener hinzuzufügen:
-
-```java
-@Override
-public void onChallengeEnable() {
-    TChallengesAPI api = TChallengesAPI.getInstance();
-    
-    api.registerListener(new Eventlistener1(), this);
-    api.registerListener(new Eventlistener2(), this);
-    api.registerListener(new Eventlistener3(), this);
-}
+        return listeners;
+    }
 ```
+Es können auch mehrere Eventlistener hinzugefügt werden.
 
 Events werden nur aufgerufen, wenn die jeweilige Challenge auch aktiv ist.
 Ist die Challenge deaktiviert, werden keine Events für diese Challenge aufgerufen.
@@ -234,6 +177,17 @@ public class MyCommand extends TChallengeCommand {
 
 Die ```execute()``` Methode funktioniert gleich wie bei Paper.
 Die Commands funktionieren nur, wenn die Challenge aktiv ist. Ist die Challenge deaktiviert, funktionieren die Commands nicht.
+
+Nun muss der Command nur noch registriert werden. Dies ist in der Challenge Hauptklasse möglich:
+
+```java
+    @Override
+    public ArrayList<TChallengeCommand> getCommands() {
+        ArrayList<TChallengeCommand> commands = new ArrayList<>();
+        commands.add(new MyCommand());
+        return commands;
+    }
+```
 
 
 ### Developers
