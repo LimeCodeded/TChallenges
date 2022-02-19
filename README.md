@@ -6,14 +6,14 @@ Was ist TChallenges?
 
 TChallenges ist ein Plugin, das mehrere verschiedene Challenges
 für Minecraft beinhaltet. Außerdem gibt es viele verschiedene 
-Optionen. 
+Optionen. Für Entwickler gibt es eine API, mit der man eigene Challenges in das Plugin
+hinzufügen kann.
 
 Challenges
 --
 
 
 - Noch keine Challenges Vorganden
-- 
 API
 --
 
