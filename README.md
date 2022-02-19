@@ -58,6 +58,15 @@ public class Challenge extends TChallenge {
 }
 ```
 
+In der Spigot ```onEnable``` Methode ist es nun wichtig die Challenge dem Plugin hinzuzufügen:
+```java
+@Override
+public void onEnable() {
+    TChallengesAPI api = TChallengesAPI.getInstance();     
+    api.addChallenge(new Challenge());
+}
+```
+
 In der Klasse müssen nun einige Methoden Implementiert werden:
 
 ```java
