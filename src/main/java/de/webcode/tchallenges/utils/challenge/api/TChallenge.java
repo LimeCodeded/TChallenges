@@ -1,6 +1,5 @@
 package de.webcode.tchallenges.utils.challenge.api;
 
-import de.webcode.tchallenges.utils.challenge.TChallengeKey;
 import org.bukkit.Material;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;

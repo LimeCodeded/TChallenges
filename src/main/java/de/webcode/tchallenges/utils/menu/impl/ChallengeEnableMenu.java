@@ -4,7 +4,6 @@ import de.webcode.tchallenges.TChallenges;
 import de.webcode.tchallenges.utils.ItemFactory;
 import de.webcode.tchallenges.utils.challenge.ChallengeManager;
 import de.webcode.tchallenges.utils.challenge.api.TChallenge;
-import de.webcode.tchallenges.utils.challenge.TChallengeKey;
 import de.webcode.tchallenges.utils.menu.PaginatedMenu;
 import de.webcode.tchallenges.utils.menu.playermenuutilitys.PlayerMenuUtility;
 import org.bukkit.ChatColor;

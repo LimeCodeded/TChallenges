@@ -8,7 +8,6 @@ import de.webcode.tchallenges.utils.ChallengeTimer;
 import de.webcode.tchallenges.utils.challenge.api.TChallenge;
 import de.webcode.tchallenges.utils.challenge.api.TChallengeCommand;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.event.HandlerList;
@@ -37,7 +36,6 @@ public class ChallengeManager {
     }
 
     public void add(TChallenge tChallenge){
-        System.out.println("Füge Challenge hinzu: " + tChallenge.getName());
         challenges.put(tChallenge.getName(), tChallenge);
         challengeEnableMap.put(tChallenge, false);
     }
@@ -62,12 +60,6 @@ public class ChallengeManager {
         timer.setRunning(false);
         new TimerStopEvent(timer).call();
         challengeEnableMap.put(challenge, true);
-    }
-
-    public boolean isChallengeEnabled(TChallengeKey key){
-        if(!challenges.containsKey(key)) return false;
-
-        return isChallengeEnabled(challenges.get(key));
     }
 
     public boolean isChallengeEnabled(TChallenge challenge){
@@ -169,7 +161,6 @@ public class ChallengeManager {
                 ArrayList<Listener> listeners = challenge.getEventlisteners();
 
                 if(listeners != null){
-                    System.out.println("Disable...Listener");
                     HandlerList.unregisterAll(challenge.getInstance());
                 }
 
@@ -194,8 +185,6 @@ public class ChallengeManager {
                         }
                     }
                 }
-
-
 
                 challenge.onChallengeDisable();
                 challengeEnableMap.put(challenge, false);
