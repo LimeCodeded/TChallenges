@@ -8,7 +8,6 @@ import de.webcode.tchallenges.utils.ChallengeTimer;
 import de.webcode.tchallenges.utils.ItemFactory;
 import de.webcode.tchallenges.utils.challenge.ChallengeManager;
 import de.webcode.tchallenges.utils.challenge.api.TChallengesAPI;
-import de.webcode.tchallenges.utils.challenge.impl.DontJumpChallenge;
 import de.webcode.tchallenges.utils.file.FileManager;
 import de.webcode.tchallenges.utils.menu.PlayerMenuUtilityManager;
 import de.webcode.tchallenges.utils.permission.PermissionManager;
@@ -53,7 +52,6 @@ public final class TChallenges extends JavaPlugin {
 
         new PluginReadyEvent().call();
 
-        new DontJumpChallenge().enable();
     }
 
     private void registerCommands(){

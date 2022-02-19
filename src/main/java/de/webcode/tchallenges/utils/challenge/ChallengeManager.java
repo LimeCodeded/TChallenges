@@ -127,28 +127,31 @@ public class ChallengeManager {
                 PluginManager pm = Bukkit.getPluginManager();
                 ArrayList<Listener> listeners = challenge.getEventlisteners();
 
-                for(Listener listener : listeners){
-                    pm.registerEvents(listener, TChallenges.getInstance());
+                if(listeners != null){
+                    for(Listener listener : listeners){
+                        pm.registerEvents(listener, challenge.getInstance());
+                    }
                 }
-
 
                 ArrayList<TChallengeCommand> challengeCmds = challenge.getCommands();
 
-                for(TChallengeCommand command : challengeCmds){
-                    String name = command.getCommandName();
+                if(challengeCmds != null){
+                    for(TChallengeCommand command : challengeCmds){
+                        String name = command.getCommandName();
 
-                    try {
-                        Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-                        if (!field.isAccessible()){
-                            field.setAccessible(true);
+                        try {
+                            Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+                            if (!field.isAccessible()){
+                                field.setAccessible(true);
+                            }
+
+                            CommandMap commandMap = (CommandMap) field.get(Bukkit.getServer());
+                            BukkitCommand bukkitCommand = (BukkitCommand) command;
+
+                            commandMap.register(name, bukkitCommand);
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
                         }
-
-                        CommandMap commandMap = (CommandMap) field.get(Bukkit.getServer());
-                        BukkitCommand bukkitCommand = (BukkitCommand) command;
-
-                        commandMap.register(name, bukkitCommand);
-                    } catch (NoSuchFieldException | IllegalAccessException e) {
-                        e.printStackTrace();
                     }
                 }
 
@@ -163,32 +166,36 @@ public class ChallengeManager {
             if(!challengeEnableMap.containsKey(challenge)) continue;
 
             if (challengeEnableMap.get(challenge)) {
-                PluginManager pm = Bukkit.getPluginManager();
                 ArrayList<Listener> listeners = challenge.getEventlisteners();
 
-                for(Listener listener : listeners){
-                        HandlerList.unregisterAll(listener);
+                if(listeners != null){
+                    System.out.println("Disable...Listener");
+                    HandlerList.unregisterAll(challenge.getInstance());
                 }
 
                 ArrayList<TChallengeCommand> cmds = challenge.getCommands();
 
-                for(TChallengeCommand command : cmds){
-                    String name = command.getCommandName();
+                if(cmds != null){
+                    for(TChallengeCommand command : cmds){
+                        String name = command.getCommandName();
 
-                    try {
-                        Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-                        if (!field.isAccessible()){
-                            field.setAccessible(true);
+                        try {
+                            Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+                            if (!field.isAccessible()){
+                                field.setAccessible(true);
+                            }
+
+                            CommandMap commandMap = (CommandMap) field.get(Bukkit.getServer());
+                            commandMap.getKnownCommands().remove(command.getName());
+
+
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
                         }
-
-                        CommandMap commandMap = (CommandMap) field.get(Bukkit.getServer());
-                        commandMap.getKnownCommands().remove(command.getName());
-
-
-                    } catch (NoSuchFieldException | IllegalAccessException e) {
-                        e.printStackTrace();
                     }
                 }
+
+
 
                 challenge.onChallengeDisable();
                 challengeEnableMap.put(challenge, false);
