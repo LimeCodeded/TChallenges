@@ -3,18 +3,15 @@ package de.webcode.tchallenges.utils.menu.impl;
 import de.webcode.tchallenges.TChallenges;
 import de.webcode.tchallenges.utils.ItemFactory;
 import de.webcode.tchallenges.utils.challenge.ChallengeManager;
-import de.webcode.tchallenges.utils.challenge.TChallenge;
+import de.webcode.tchallenges.utils.challenge.api.TChallenge;
 import de.webcode.tchallenges.utils.challenge.TChallengeKey;
 import de.webcode.tchallenges.utils.menu.PaginatedMenu;
 import de.webcode.tchallenges.utils.menu.playermenuutilitys.PlayerMenuUtility;
-import org.bukkit.GameRule;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class ChallengeEnableMenu extends PaginatedMenu {
 

@@ -1,7 +1,7 @@
-package de.webcode.tchallenges.utils.challenge;
+package de.webcode.tchallenges.utils.challenge.api;
 
+import de.webcode.tchallenges.utils.challenge.TChallengeKey;
 import org.bukkit.Material;
-import org.bukkit.event.Listener;
 
 public abstract class TChallenge {
 

@@ -1,7 +1,8 @@
 package de.webcode.tchallenges.utils.challenge.impl;
 
-import de.webcode.tchallenges.utils.challenge.TChallenge;
+import de.webcode.tchallenges.utils.challenge.api.TChallenge;
 import de.webcode.tchallenges.utils.challenge.TChallengeKey;
+import de.webcode.tchallenges.utils.challenge.api.TChallengeCommand;
 import de.webcode.tchallenges.utils.challenge.api.TChallengesAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -9,9 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DontJumpChallenge extends TChallenge implements Listener {
 
@@ -50,6 +48,8 @@ public class DontJumpChallenge extends TChallenge implements Listener {
         api.addChallenge(this);
 
         api.registerListener(this, this);
+
+        api.addCommand(this, new TestCommmand());
     }
 
     @Override

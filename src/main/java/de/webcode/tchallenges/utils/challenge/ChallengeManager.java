@@ -2,29 +2,31 @@ package de.webcode.tchallenges.utils.challenge;
 
 import de.webcode.tchallenges.TChallenges;
 import de.webcode.tchallenges.event.EventTarget;
-import de.webcode.tchallenges.event.impl.PluginReadyEvent;
 import de.webcode.tchallenges.event.impl.TimerStartEvent;
 import de.webcode.tchallenges.event.impl.TimerStopEvent;
 import de.webcode.tchallenges.utils.ChallengeTimer;
-import de.webcode.tchallenges.utils.challenge.api.TChallengesAPI;
-import de.webcode.tchallenges.utils.challenge.impl.DontJumpChallenge;
+import de.webcode.tchallenges.utils.challenge.api.TChallenge;
+import de.webcode.tchallenges.utils.challenge.api.TChallengeCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
+import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class ChallengeManager {
     private HashMap<TChallengeKey, ArrayList<Listener>> challengeEventListeners;
     private HashMap<TChallengeKey, TChallenge> challenges;
+    private HashMap<TChallengeKey, ArrayList<TChallengeCommand>> challengeCommands;
     private HashMap<TChallenge, Boolean> challengeEnableMap;
 
     public ChallengeManager(){
         this.challenges = new HashMap<>();
+        this.challengeCommands = new HashMap<>();
         this.challengeEventListeners = new HashMap<>();
         this.challengeEnableMap = new HashMap<>();
 
@@ -91,6 +93,18 @@ public class ChallengeManager {
         return challengeEnableMap.get(challenge);
     }
 
+    public void setChallengeCommands(TChallenge challenge, ArrayList<TChallengeCommand> cmds){
+        challengeCommands.put(challenge.getKey(), cmds);
+    }
+
+    public ArrayList<TChallengeCommand> getChallengeCommands(TChallenge challenge){
+        TChallengeKey key = challenge.getKey();
+
+        if(!challengeCommands.containsKey(key)) return new ArrayList<>();
+
+        return challengeCommands.get(key);
+    }
+
     public void setChallengeEventListener(TChallenge challenge, ArrayList<Listener> listeners){
         challengeEventListeners.put(challenge.getKey(), listeners);
     }
@@ -141,6 +155,30 @@ public class ChallengeManager {
                     }
                 }
 
+                if (challengeCommands.containsKey(key)) {
+
+                    if (challengeCommands.containsKey(key)) {
+
+                        for(TChallengeCommand command : challengeCommands.get(key)){
+                            String name = command.getCommandName();
+
+                            try {
+                                Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+                                if (!field.isAccessible()){
+                                    field.setAccessible(true);
+                                }
+
+                                CommandMap commandMap = (CommandMap) field.get(Bukkit.getServer());
+                                BukkitCommand bukkitCommand = (BukkitCommand) command;
+
+                                commandMap.register(name, bukkitCommand);
+                            } catch (NoSuchFieldException | IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+
                 challenge.onChallengeEnable();
             }
         }
@@ -162,6 +200,27 @@ public class ChallengeManager {
                         HandlerList.unregisterAll(listener);
                     }
                 }
+
+                if(challengeCommands.containsKey(key)){
+                    for(TChallengeCommand command : challengeCommands.get(key)){
+                        String name = command.getCommandName();
+
+                        try {
+                            Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+                            if (!field.isAccessible()){
+                                field.setAccessible(true);
+                            }
+
+                            CommandMap commandMap = (CommandMap) field.get(Bukkit.getServer());
+                            commandMap.getKnownCommands().remove(command.getName());
+
+
+                        } catch (NoSuchFieldException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
                 challenge.onChallengeDisable();
                 challengeEnableMap.put(challenge, false);
             }

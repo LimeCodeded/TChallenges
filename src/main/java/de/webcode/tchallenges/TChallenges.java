@@ -51,14 +51,6 @@ public final class TChallenges extends JavaPlugin {
         new DontJumpChallenge().enable();
     }
 
-
-    /*
-    * Für Server Menü:
-    * Gamerules
-    * Welt
-    * Commands
-    * */
-
     private void registerCommands(){
         getCommand("permission").setExecutor(new PermissionCommand());
         getCommand("settings").setExecutor(new SettingCommand());
