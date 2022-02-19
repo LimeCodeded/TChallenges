@@ -225,3 +225,8 @@ public class MyCommand extends TChallengeCommand {
 
 Die ```execute()``` Methode funktioniert gleich wie bei Paper.
 Die Commands funktionieren nur, wenn die Challenge aktiv ist. Ist die Challenge deaktiviert, funktionieren die Commands nicht.
+
+
+### Developers
+
+2022 - Entwickelt von TheWebcode
