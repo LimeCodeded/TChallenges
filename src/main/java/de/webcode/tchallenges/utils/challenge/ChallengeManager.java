@@ -36,7 +36,6 @@ public class ChallengeManager {
     }
 
     public void add(TChallenge tChallenge){
-        System.out.println("Challenge hinzugefügt: " + tChallenge.getName());
         challenges.put(tChallenge.getKey(), tChallenge);
         challengeEnableMap.put(tChallenge, false);
     }

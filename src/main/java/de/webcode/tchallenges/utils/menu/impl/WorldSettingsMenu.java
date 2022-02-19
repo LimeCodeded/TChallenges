@@ -52,11 +52,13 @@ public class WorldSettingsMenu extends Menu {
         itemFactory.setDisplayName(reset, "§cWelt neugenerieren");
 
         ItemStack time = itemFactory.create(Material.CLOCK, "§aZeit setzen");
+        ItemStack itemStack = itemFactory.getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ==");
+        itemStack = itemFactory.setDisplayName(itemStack, "§cComing Soon");
         ItemStack gamerules = itemFactory.create(Material.WRITABLE_BOOK, "§aGamerules");
         ItemStack back = itemFactory.create(Material.BARRIER, "§cZurück");
 
         inventory.setItem(11, time);
-        inventory.setItem(13, reset);
+        inventory.setItem(13, itemStack);
         inventory.setItem(15, gamerules);
         inventory.setItem(22, back);
     }

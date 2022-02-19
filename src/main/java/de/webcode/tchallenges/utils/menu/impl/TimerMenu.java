@@ -43,18 +43,14 @@ public class TimerMenu extends Menu {
 
         switch(type){
             case LIME_CONCRETE:
-                new TimerStartEvent(timer).call();
-                new TimerResumeEvent(timer).call();
                 timer.setRunning(true);
                 player.getInventory().close();
                 break;
             case RED_CONCRETE:
-                new TimerStopEvent(timer).call();
                 timer.setTime(0);
                 timer.setRunning(false);
                 player.getInventory().close();
             case YELLOW_CONCRETE:
-                new TimerStopEvent(timer).call();
                 timer.setRunning(false);
                 player.getInventory().close();
                 break;

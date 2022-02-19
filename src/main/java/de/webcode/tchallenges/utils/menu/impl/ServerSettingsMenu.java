@@ -66,11 +66,16 @@ public class ServerSettingsMenu extends Menu {
         skullMeta.setOwningPlayer(playerMenuUtility.getOwner());
         players.setItemMeta(skullMeta);
 
+        ItemStack itemStack = itemFactory.getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ==");
+        itemStack = itemFactory.setDisplayName(itemStack, "§cComing Soon");
+
         ItemStack back = itemFactory.create(Material.BARRIER, "§cZurück");
 
 
         inventory.setItem(10, worldSettings);
         inventory.setItem(12, players);
+        inventory.setItem(14, itemStack);
+        inventory.setItem(16, itemStack);
         inventory.setItem(22, back);
 
     }

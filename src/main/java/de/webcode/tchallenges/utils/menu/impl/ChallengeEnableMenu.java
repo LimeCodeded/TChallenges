@@ -53,6 +53,8 @@ public class ChallengeEnableMenu extends PaginatedMenu {
             }
         }
 
+        if(currentItem.getType().equals(super.FILLER_GLASS.getType())) return;
+
         String name = currentItem.getItemMeta().getDisplayName().replace("§a", "");
         TChallengeKey challengeKey = challengeManager.getChallengeByName(name);
         challengeManager.toggleChallenge(challengeKey);

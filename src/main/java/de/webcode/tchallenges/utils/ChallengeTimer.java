@@ -30,7 +30,14 @@ public class ChallengeTimer implements FileManagement {
     }
 
     public void setRunning(boolean running) {
+        if(isRunning() == running) return;
+
         this.running = running;
+
+        if(isRunning()){
+            new TimerStartEvent(TChallenges.getInstance().getChallengeTimer()).call();
+            new TimerResumeEvent(TChallenges.getInstance().getChallengeTimer()).call();
+        } else new TimerStopEvent(TChallenges.getInstance().getChallengeTimer()).call();
     }
 
     public int getTime() {
