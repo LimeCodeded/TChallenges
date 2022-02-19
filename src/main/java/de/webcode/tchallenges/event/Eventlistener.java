@@ -19,7 +19,6 @@ import org.bukkit.inventory.InventoryHolder;
 public class Eventlistener implements Listener, PermissionManagement {
     @EventTarget
     public void onPluginReady(PluginReadyEvent event){
-        System.out.println("Plugin ready event call");
     }
 
     @EventHandler

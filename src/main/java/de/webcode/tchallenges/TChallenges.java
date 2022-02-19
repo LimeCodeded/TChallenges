@@ -31,11 +31,16 @@ public final class TChallenges extends JavaPlugin {
     private ChallengeTimer challengeTimer;
 
     @Override
+    public void onLoad() {
+        this.tChallengesAPI = new TChallengesAPI();
+        super.onLoad();
+    }
+
+    @Override
     public void onEnable() {
         instance = this;
 
         this.itemFactory = new ItemFactory();
-        this.tChallengesAPI = new TChallengesAPI();
         this.eventlistener = new Eventlistener();
         this.challengeManager = new ChallengeManager();
         this.playerMenuUtilityManager = new PlayerMenuUtilityManager();

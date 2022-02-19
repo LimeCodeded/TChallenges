@@ -7,6 +7,7 @@ import de.webcode.tchallenges.utils.challenge.api.TChallenge;
 import de.webcode.tchallenges.utils.challenge.TChallengeKey;
 import de.webcode.tchallenges.utils.menu.PaginatedMenu;
 import de.webcode.tchallenges.utils.menu.playermenuutilitys.PlayerMenuUtility;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -55,9 +56,11 @@ public class ChallengeEnableMenu extends PaginatedMenu {
 
         if(currentItem.getType().equals(super.FILLER_GLASS.getType())) return;
 
-        String name = currentItem.getItemMeta().getDisplayName().replace("§a", "");
-        TChallengeKey challengeKey = challengeManager.getChallengeByName(name);
-        challengeManager.toggleChallenge(challengeKey);
+        String name = ChatColor.stripColor(currentItem.getItemMeta().getDisplayName());
+        TChallenge challenge = challengeManager.getChallengeByName(name);
+
+        System.out.println("Challenge Key 1: " + challenge.getName());
+        challengeManager.toggleChallenge(challenge);
         open();
     }
 

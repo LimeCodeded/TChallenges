@@ -1,5 +1,6 @@
 package de.webcode.tchallenges.utils.challenge.impl;
 
+import de.webcode.tchallenges.event.Eventlistener;
 import de.webcode.tchallenges.utils.challenge.api.TChallenge;
 import de.webcode.tchallenges.utils.challenge.TChallengeKey;
 import de.webcode.tchallenges.utils.challenge.api.TChallengeCommand;
@@ -11,6 +12,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class DontJumpChallenge extends TChallenge implements Listener {
 
     @Override
@@ -21,11 +25,6 @@ public class DontJumpChallenge extends TChallenge implements Listener {
     @Override
     public void onChallengeDisable() {
         Bukkit.broadcastMessage("§cChallenge beendet!");
-    }
-
-    @Override
-    public TChallengeKey getKey() {
-        return null;
     }
 
     @Override
@@ -43,13 +42,24 @@ public class DontJumpChallenge extends TChallenge implements Listener {
         return "1.0";
     }
 
+    @Override
+    public ArrayList<TChallengeCommand> getCommands() {
+        ArrayList<TChallengeCommand> cmds = new ArrayList<>();
+        cmds.add(new TestCommmand());
+        return cmds;
+    }
+
+    @Override
+    public ArrayList<Listener> getEventlisteners() {
+        ArrayList<Listener> listeners = new ArrayList<>();
+        listeners.add(this);
+
+        return listeners;
+    }
+
     public void enable(){
         TChallengesAPI api = TChallengesAPI.getInstance();
         api.addChallenge(this);
-
-        api.registerListener(this, this);
-
-        api.addCommand(this, new TestCommmand());
     }
 
     @Override
