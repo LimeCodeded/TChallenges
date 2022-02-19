@@ -1,6 +1,7 @@
 package de.webcode.tchallenges.event;
 
 import de.webcode.tchallenges.TChallenges;
+import de.webcode.tchallenges.event.impl.PluginReadyEvent;
 import de.webcode.tchallenges.utils.menu.Menu;
 import de.webcode.tchallenges.utils.permission.Permission;
 import de.webcode.tchallenges.utils.permission.PermissionManagement;
@@ -16,6 +17,11 @@ import org.bukkit.inventory.InventoryHolder;
 
 
 public class Eventlistener implements Listener, PermissionManagement {
+    @EventTarget
+    public void onPluginReady(PluginReadyEvent event){
+        System.out.println("Plugin ready event call");
+    }
+
     @EventHandler
     public void onMenuClick(InventoryClickEvent e){
         if(e.getCurrentItem() == null) return;

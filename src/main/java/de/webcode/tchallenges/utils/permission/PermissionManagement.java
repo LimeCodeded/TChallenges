@@ -4,18 +4,16 @@ import de.webcode.tchallenges.TChallenges;
 import org.bukkit.entity.Player;
 
 public interface PermissionManagement {
-    PermissionManager permissionManager = TChallenges.getInstance().getPermissionManager();
-
     default boolean hasPermission(Player player, Permission permission){
         return hasPermission(player, permission.getSavePath());
     }
 
     default boolean hasPermission(Player player, String permission){
-        return permissionManager.hasPermission(player, permission);
+        return TChallenges.getInstance().getPermissionManager().hasPermission(player, permission);
     }
 
     default void setPermission(Player player, String permission, boolean value){
-        permissionManager.setPermission(player, permission, value);
+        TChallenges.getInstance().getPermissionManager().setPermission(player, permission, value);
     }
 
     default void setPermission(Player player, Permission permission, boolean value){

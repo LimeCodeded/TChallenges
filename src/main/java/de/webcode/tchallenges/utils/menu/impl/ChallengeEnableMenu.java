@@ -41,6 +41,7 @@ public class ChallengeEnableMenu extends PaginatedMenu {
 
         if (currentItem.getType().equals(Material.BARRIER)) {
             new SettingMenu(playerMenuUtility).open();
+            return;
         }else if(currentItem.getType().equals(Material.DARK_OAK_BUTTON)){
             if (currentItem.getItemMeta().getDisplayName().contains("<")){
                 if (page != 0){
@@ -58,6 +59,7 @@ public class ChallengeEnableMenu extends PaginatedMenu {
         String name = currentItem.getItemMeta().getDisplayName().replace("§a", "");
         TChallengeKey challengeKey = challengeManager.getChallengeByName(name);
         challengeManager.toggleChallenge(challengeKey);
+        open();
     }
 
     @Override
@@ -75,7 +77,9 @@ public class ChallengeEnableMenu extends PaginatedMenu {
                     TChallenge challenge = challenges.get(index);
 
                     ItemStack challengeitem = itemFactory.create(challenge.getChallengeIcon(), "§a" + challenge.getName());
-                    challengeitem = itemFactory.addLore(challengeitem, "§7Von: §e" + challenge.getAuthor());
+                    boolean enabled = TChallenges.getInstance().getChallengeManager().isChallengeEnabled(challenge);
+                    challengeitem = itemFactory.addLore(challengeitem, "§7Von: §e" + challenge.getAuthor(), "§7Status: " + (enabled ? "§aAktiv" : "§cDeaktiviert"));
+
 
                     inventory.addItem(challengeitem);
                 }

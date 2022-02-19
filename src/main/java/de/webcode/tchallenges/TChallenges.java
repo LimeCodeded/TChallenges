@@ -23,6 +23,7 @@ public final class TChallenges extends JavaPlugin {
 
     private ItemFactory itemFactory;
     private TChallengesAPI tChallengesAPI;
+    private Eventlistener eventlistener;
     private ChallengeManager challengeManager;
     private PlayerMenuUtilityManager playerMenuUtilityManager;
     private PermissionManager permissionManager;
@@ -35,6 +36,7 @@ public final class TChallenges extends JavaPlugin {
 
         this.itemFactory = new ItemFactory();
         this.tChallengesAPI = new TChallengesAPI();
+        this.eventlistener = new Eventlistener();
         this.challengeManager = new ChallengeManager();
         this.playerMenuUtilityManager = new PlayerMenuUtilityManager();
         this.fileManager = new FileManager();
@@ -65,12 +67,12 @@ public final class TChallenges extends JavaPlugin {
     }
 
     private void registerEvents(){
-
         EventManager.register(challengeManager);
+        EventManager.register(eventlistener);
 
         PluginManager pm = Bukkit.getPluginManager();
 
-        pm.registerEvents(new Eventlistener(), this);
+        pm.registerEvents(eventlistener, this);
     }
 
     public ChallengeTimer getChallengeTimer() {

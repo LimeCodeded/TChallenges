@@ -1,6 +1,9 @@
 package de.webcode.tchallenges.utils.menu.impl;
 
 import de.webcode.tchallenges.TChallenges;
+import de.webcode.tchallenges.event.impl.TimerResumeEvent;
+import de.webcode.tchallenges.event.impl.TimerStartEvent;
+import de.webcode.tchallenges.event.impl.TimerStopEvent;
 import de.webcode.tchallenges.utils.ChallengeTimer;
 import de.webcode.tchallenges.utils.ItemFactory;
 import de.webcode.tchallenges.utils.menu.Menu;
@@ -40,14 +43,18 @@ public class TimerMenu extends Menu {
 
         switch(type){
             case LIME_CONCRETE:
+                new TimerStartEvent(timer).call();
+                new TimerResumeEvent(timer).call();
                 timer.setRunning(true);
                 player.getInventory().close();
                 break;
             case RED_CONCRETE:
+                new TimerStopEvent(timer).call();
                 timer.setTime(0);
                 timer.setRunning(false);
                 player.getInventory().close();
             case YELLOW_CONCRETE:
+                new TimerStopEvent(timer).call();
                 timer.setRunning(false);
                 player.getInventory().close();
                 break;
@@ -60,8 +67,8 @@ public class TimerMenu extends Menu {
         ItemFactory itemFactory = TChallenges.getInstance().getItemFactory();
 
         ItemStack back = itemFactory.create(Material.BARRIER, "§cZurück");
-        ItemStack startTimer = itemFactory.create(Material.LIME_CONCRETE, "§aTimer starten");
-        ItemStack stopTimer = itemFactory.create(Material.YELLOW_CONCRETE, "§cTimer anhalten");
+        ItemStack startTimer = itemFactory.create(Material.LIME_CONCRETE, "§aTimer starten", "§eStartet die aktivierten Challenges");
+        ItemStack stopTimer = itemFactory.create(Material.YELLOW_CONCRETE, "§cTimer anhalten", "§eDeaktiviert alle Challenges");
         ItemStack resetTimer = itemFactory.create(Material.RED_CONCRETE, "§cTimer zurücksetzen");
 
         inventory.setItem(11, startTimer);

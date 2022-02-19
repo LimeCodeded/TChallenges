@@ -3,6 +3,9 @@ package de.webcode.tchallenges.utils.challenge;
 import de.webcode.tchallenges.TChallenges;
 import de.webcode.tchallenges.event.EventTarget;
 import de.webcode.tchallenges.event.impl.PluginReadyEvent;
+import de.webcode.tchallenges.event.impl.TimerStartEvent;
+import de.webcode.tchallenges.event.impl.TimerStopEvent;
+import de.webcode.tchallenges.utils.ChallengeTimer;
 import de.webcode.tchallenges.utils.challenge.api.TChallengesAPI;
 import de.webcode.tchallenges.utils.challenge.impl.DontJumpChallenge;
 import org.bukkit.Bukkit;
@@ -57,17 +60,9 @@ public class ChallengeManager {
     }
 
     public void disableChallenge(TChallenge challenge){
-        TChallengeKey key = challenge.getKey();
-
-        if (challengeEventListeners.containsKey(key)) {
-            PluginManager pm = Bukkit.getPluginManager();
-            ArrayList<Listener> listeners = challengeEventListeners.get(key);
-
-            for(Listener listener : listeners){
-                HandlerList.unregisterAll(listener);
-            }
-        }
-        challenge.onChallengeDisable();
+        ChallengeTimer timer = TChallenges.getInstance().getChallengeTimer();
+        timer.setRunning(false);
+        new TimerStopEvent(timer).call();
         challengeEnableMap.put(challenge, false);
     }
 
@@ -78,18 +73,10 @@ public class ChallengeManager {
     }
 
     public void enableChallenge(TChallenge challenge){
-        TChallengeKey key = challenge.getKey();
-        if (challengeEventListeners.containsKey(key)) {
-            PluginManager pm = Bukkit.getPluginManager();
-            ArrayList<Listener> listeners = challengeEventListeners.get(key);
-
-            for(Listener listener : listeners){
-                pm.registerEvents(listener, TChallenges.getInstance());
-            }
-        }
-
+        ChallengeTimer timer = TChallenges.getInstance().getChallengeTimer();
+        timer.setRunning(false);
+        new TimerStopEvent(timer).call();
         challengeEnableMap.put(challenge, true);
-        challenge.onChallengeEnable();
     }
 
     public boolean isChallengeEnabled(TChallengeKey key){
@@ -134,6 +121,51 @@ public class ChallengeManager {
         }
 
         return null;
+    }
+    
+
+    @EventTarget
+    public void onTimerStart(TimerStartEvent event){
+        for(TChallenge challenge : challenges.values()){
+
+            if(!challengeEnableMap.containsKey(challenge)) continue;
+
+            if (challengeEnableMap.get(challenge)) {
+                TChallengeKey key = challenge.getKey();
+                if (challengeEventListeners.containsKey(key)) {
+                    PluginManager pm = Bukkit.getPluginManager();
+                    ArrayList<Listener> listeners = challengeEventListeners.get(key);
+
+                    for(Listener listener : listeners){
+                        pm.registerEvents(listener, TChallenges.getInstance());
+                    }
+                }
+
+                challenge.onChallengeEnable();
+            }
+        }
+    }
+
+    @EventTarget
+    public void onTimerStop(TimerStopEvent event){
+        for(TChallenge challenge : challenges.values()){
+            if(!challengeEnableMap.containsKey(challenge)) continue;
+
+            if (challengeEnableMap.get(challenge)) {
+                TChallengeKey key = challenge.getKey();
+
+                if (challengeEventListeners.containsKey(key)) {
+                    PluginManager pm = Bukkit.getPluginManager();
+                    ArrayList<Listener> listeners = challengeEventListeners.get(key);
+
+                    for(Listener listener : listeners){
+                        HandlerList.unregisterAll(listener);
+                    }
+                }
+                challenge.onChallengeDisable();
+                challengeEnableMap.put(challenge, false);
+            }
+        }
     }
 
 

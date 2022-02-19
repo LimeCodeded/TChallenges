@@ -17,10 +17,12 @@ public class DontJumpChallenge extends TChallenge implements Listener {
 
     @Override
     public void onChallengeEnable() {
+        Bukkit.broadcastMessage("§aChallenge gestartet!");
     }
 
     @Override
     public void onChallengeDisable() {
+        Bukkit.broadcastMessage("§cChallenge beendet!");
     }
 
     @Override

@@ -32,11 +32,11 @@ public class ItemFactory {
     public ItemStack create(Material material, String name, String... lore) {
         ItemStack itemStack = create(material, name);
 
-
         List<String> list = Arrays.asList(lore);
         ArrayList<Component> itemLore = stringListToTextComponent(list);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.lore(itemLore);
+        itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 
