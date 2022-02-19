@@ -47,7 +47,7 @@ Plugins zu verwenden. Erstellen einer Instanz zur API:
  TChallengesAPI api = TChallengesAPI.getInstance();
 ```
 
-###Challenge - Hauptklasse
+### Challenge - Hauptklasse
 
 Die Hauptklasse der Challenge sollte nicht die Paper Hauptklasse sein. Sie muss die
 Klasse TChallenge Extenden:
@@ -106,7 +106,7 @@ public class Challenge extends TChallenge {
 }
 ```
 
-###Den Challenge Key erstellen
+### Den Challenge Key erstellen
 
 Der Challenge Key wird für einige wichtige Informationen über die Challenge verwendet.
 Man benötigt zum erstellen eines neuen Keys nur den Namen der Challenge. Dieser darf keine Leerzeichen, Sonderzeichen, oder Spigot/Paper
@@ -157,7 +157,7 @@ public class Challenge extends TChallenge {
 }
 ```
 
-###Eventlistener hinzufügen
+### Eventlistener hinzufügen
 
 Eventlistener funktionieren genauso wie bei Paper Plugins. Nur das registrieren des Eventlisteners ist anders.
 Zunächst musst du eine Eventlistener Klasse erstellen, hierbei ist es wichtig, wie zuvor ```@EventHandler``` von
@@ -201,7 +201,7 @@ public void onChallengeEnable() {
 Events werden nur aufgerufen, wenn die jeweilige Challenge auch aktiv ist.
 Ist die Challenge deaktiviert, werden keine Events für diese Challenge aufgerufen.
 
-###Einen Command hinzufügen
+### Einen Command hinzufügen
 
 Commands funktionieren ähnlich wie in Paper. Zunächst wird eine Klasse für den Command erstellt.
 Diese Klasse extended ```TChallengeCommand``` aus ```de.webcode.tchallenges.utils.challenge.api.TChallengeCommand```.
