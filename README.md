@@ -1,21 +1,19 @@
 TChallenges
 ==
 
-Was ist TChallenges?
---
+## Was ist TChallenges?
+
 
 TChallenges ist ein Plugin, das mehrere verschiedene Challenges
 für Minecraft beinhaltet. Außerdem gibt es viele verschiedene 
 Optionen. Für Entwickler gibt es eine API, mit der man eigene Challenges in das Plugin
 hinzufügen kann.
 
-Challenges
---
+## Challenges
 
+- Dont Jump Challenge
 
-- Noch keine Challenges Vorganden
-API
---
+## API
 
 Mit der TChallenges API ist es möglich Events zu erkennen, und damit die Abläufe auf dem 
 Server zu steuern. Lade dir dafür das neueste Release von TChallenges herunter. Du findest es [hier](https://github.com/TheWebcode/TChallenges/releases). Erstelle nun 
