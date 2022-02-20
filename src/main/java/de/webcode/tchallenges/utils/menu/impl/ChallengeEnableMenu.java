@@ -58,7 +58,6 @@ public class ChallengeEnableMenu extends PaginatedMenu {
         String name = ChatColor.stripColor(currentItem.getItemMeta().getDisplayName());
         TChallenge challenge = challengeManager.getChallengeByName(name);
 
-        System.out.println("Challenge Key 1: " + challenge.getName());
         challengeManager.toggleChallenge(challenge);
         open();
     }

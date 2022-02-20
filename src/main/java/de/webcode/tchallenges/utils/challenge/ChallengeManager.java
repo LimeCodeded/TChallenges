@@ -51,14 +51,12 @@ public class ChallengeManager {
     public void disableChallenge(TChallenge challenge){
         ChallengeTimer timer = TChallenges.getInstance().getChallengeTimer();
         timer.setRunning(false);
-        new TimerStopEvent(timer).call();
         challengeEnableMap.put(challenge, false);
     }
 
     public void enableChallenge(TChallenge challenge){
         ChallengeTimer timer = TChallenges.getInstance().getChallengeTimer();
         timer.setRunning(false);
-        new TimerStopEvent(timer).call();
         challengeEnableMap.put(challenge, true);
     }
 
