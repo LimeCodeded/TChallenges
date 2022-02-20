@@ -60,7 +60,7 @@ public class ChallengeTimer implements FileManagement {
         }
     }
 
-    private String getTimeString(){
+    public String getTimeString(){
 
         int time = getTime();
         int hours = time / 3600;

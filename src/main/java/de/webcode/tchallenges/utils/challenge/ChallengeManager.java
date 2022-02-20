@@ -161,7 +161,14 @@ public class ChallengeManager {
                 ArrayList<Listener> listeners = challenge.getEventlisteners();
 
                 if(listeners != null){
+
                     HandlerList.unregisterAll(challenge.getInstance());
+
+                    if(challenge.getInstance().getClass().getSimpleName().equals(TChallenges.getInstance().getClass().getSimpleName())){
+                        PluginManager pm = Bukkit.getPluginManager();
+                        pm.registerEvents(TChallenges.getInstance().getEventlistener(), TChallenges.getInstance());
+                    }
+
                 }
 
                 ArrayList<TChallengeCommand> cmds = challenge.getCommands();
