@@ -36,14 +36,27 @@ public class PlayerMenu extends PaginatedMenu {
 
     @Override
     public void handleMenu(InventoryClickEvent e) {
-        if (e.getCurrentItem().getType().equals(Material.BARRIER)) {
+        ItemStack currentItem = e.getCurrentItem();
+        if (currentItem.getType().equals(Material.BARRIER)) {
             new ServerSettingsMenu(playerMenuUtility).open();
+        }else if(currentItem.getType().equals(Material.DARK_OAK_BUTTON)){
+            if (currentItem.getItemMeta().getDisplayName().contains("<")){
+                if (page != 0){
+                    page = page - 1;
+                    super.open();
+                }
+            }else if (currentItem.getItemMeta().getDisplayName().contains(">")){
+                if (!((index + 1) >= Bukkit.getOnlinePlayers().size())){
+                    page = page + 1;
+                    super.open();
+                }
+            }
         }
 
-        if (e.getCurrentItem().getType().equals(Material.PLAYER_HEAD)) {
+        if (currentItem.getType().equals(Material.PLAYER_HEAD)) {
             Player player = (Player) e.getWhoClicked();
             PlayerMenuUtility playerMenuUtility = TChallenges.getInstance().getPlayerMenuUtilityManager().getPlayerMenuUtility(player);
-            Player target = Bukkit.getPlayer(UUID.fromString(e.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(TChallenges.getInstance(), "uuid"), PersistentDataType.STRING)));
+            Player target = Bukkit.getPlayer(UUID.fromString(currentItem.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(TChallenges.getInstance(), "uuid"), PersistentDataType.STRING)));
 
             new PlayerSettingMenu(new TargetPlayerMenuUtility(player, target)).open();
         }
