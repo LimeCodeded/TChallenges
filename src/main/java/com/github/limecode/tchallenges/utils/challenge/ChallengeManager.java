@@ -1,15 +1,17 @@
-package de.webcode.tchallenges.utils.challenge;
+package com.github.limecode.tchallenges.utils.challenge;
 
-import de.webcode.tchallenges.TChallenges;
-import de.webcode.tchallenges.event.EventTarget;
-import de.webcode.tchallenges.event.impl.TimerStartEvent;
-import de.webcode.tchallenges.event.impl.TimerStopEvent;
-import de.webcode.tchallenges.utils.ChallengeTimer;
-import de.webcode.tchallenges.utils.challenge.api.TChallenge;
-import de.webcode.tchallenges.utils.challenge.api.TChallengeCommand;
+import com.github.limecode.tchallenges.TChallenges;
+import com.github.limecode.tchallenges.event.EventTarget;
+import com.github.limecode.tchallenges.event.impl.TimerStartEvent;
+import com.github.limecode.tchallenges.event.impl.TimerStopEvent;
+import com.github.limecode.tchallenges.utils.ChallengeTimer;
+import com.github.limecode.tchallenges.utils.challenge.api.TChallenge;
+import com.github.limecode.tchallenges.utils.challenge.api.TCommand;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
-import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -21,7 +23,7 @@ import java.util.HashMap;
 public class ChallengeManager {
     private HashMap<String, ArrayList<Listener>> challengeEventListeners;
     private HashMap<String, TChallenge> challenges;
-    private HashMap<String, ArrayList<TChallengeCommand>> challengeCommands;
+    private HashMap<String, ArrayList<TCommand>> challengeCommands;
     private HashMap<TChallenge, Boolean> challengeEnableMap;
 
     public ChallengeManager(){
@@ -66,11 +68,11 @@ public class ChallengeManager {
         return challengeEnableMap.get(challenge);
     }
 
-    public void setChallengeCommands(TChallenge challenge, ArrayList<TChallengeCommand> cmds){
+    public void setChallengeCommands(TChallenge challenge, ArrayList<TCommand> cmds){
         challengeCommands.put(challenge.getName(), cmds);
     }
 
-    public ArrayList<TChallengeCommand> getChallengeCommands(TChallenge challenge){
+    public ArrayList<TCommand> getChallengeCommands(TChallenge challenge){
         if(!challengeCommands.containsKey(challenge.getName())) return new ArrayList<>();
 
         return challengeCommands.get(challenge.getName());
@@ -123,30 +125,33 @@ public class ChallengeManager {
                     }
                 }
 
-                ArrayList<TChallengeCommand> challengeCmds = challenge.getCommands();
+                ArrayList<TCommand> challengeCmds = challenge.getCommands();
 
                 if(challengeCmds != null){
-                    for(TChallengeCommand command : challengeCmds){
-                        String name = command.getCommandName();
+                    try {
+                        for (TCommand command : challengeCmds) {
 
-                        try {
-                            Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-                            if (!field.isAccessible()){
-                                field.setAccessible(true);
+                            try {
+                                Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+                                f.setAccessible(true);
+                                CommandMap commandMap = (CommandMap) f.get(Bukkit.getServer());
+                                commandMap.register(TChallenges.getInstance().getName(), command);
+                            } catch (IllegalAccessException | NoSuchFieldException e) {
+                                e.printStackTrace();
                             }
-
-                            CommandMap commandMap = (CommandMap) field.get(Bukkit.getServer());
-                            BukkitCommand bukkitCommand = (BukkitCommand) command;
-
-                            commandMap.register(name, bukkitCommand);
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
                         }
+                    }catch (Exception e){
+
                     }
                 }
 
                 challenge.onChallengeEnable();
             }
+
+
+            Bukkit.getOnlinePlayers().forEach(player -> {
+                player.showTitle(Title.title(Component.text("§2" + challenge.getName()), Component.empty()));
+            });
         }
     }
 
@@ -169,25 +174,19 @@ public class ChallengeManager {
 
                 }
 
-                ArrayList<TChallengeCommand> cmds = challenge.getCommands();
+                ArrayList<TCommand> cmds = challenge.getCommands();
 
                 if(cmds != null){
-                    for(TChallengeCommand command : cmds){
-                        String name = command.getCommandName();
 
-                        try {
-                            Field field = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-                            if (!field.isAccessible()){
-                                field.setAccessible(true);
-                            }
-
-                            CommandMap commandMap = (CommandMap) field.get(Bukkit.getServer());
+                    try {
+                        Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+                        f.setAccessible(true);
+                        CommandMap commandMap = (CommandMap) f.get(Bukkit.getServer());
+                        for(TCommand command : cmds){
                             commandMap.getKnownCommands().remove(command.getName());
-
-
-                        } catch (NoSuchFieldException | IllegalAccessException e) {
-                            e.printStackTrace();
                         }
+                    } catch (IllegalAccessException | NoSuchFieldException e) {
+                        e.printStackTrace();
                     }
                 }
 

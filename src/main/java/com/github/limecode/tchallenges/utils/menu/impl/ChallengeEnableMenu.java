@@ -1,11 +1,11 @@
-package de.webcode.tchallenges.utils.menu.impl;
+package com.github.limecode.tchallenges.utils.menu.impl;
 
-import de.webcode.tchallenges.TChallenges;
-import de.webcode.tchallenges.utils.ItemFactory;
-import de.webcode.tchallenges.utils.challenge.ChallengeManager;
-import de.webcode.tchallenges.utils.challenge.api.TChallenge;
-import de.webcode.tchallenges.utils.menu.PaginatedMenu;
-import de.webcode.tchallenges.utils.menu.playermenuutilitys.PlayerMenuUtility;
+import com.github.limecode.tchallenges.utils.challenge.ChallengeManager;
+import com.github.limecode.tchallenges.utils.challenge.api.TChallenge;
+import com.github.limecode.tchallenges.utils.menu.playermenuutilitys.PlayerMenuUtility;
+import com.github.limecode.tchallenges.TChallenges;
+import com.github.limecode.tchallenges.utils.ItemFactory;
+import com.github.limecode.tchallenges.utils.menu.PaginatedMenu;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -79,6 +79,9 @@ public class ChallengeEnableMenu extends PaginatedMenu {
                     ItemStack challengeitem = itemFactory.create(challenge.getChallengeIcon(), "§a" + challenge.getName());
                     boolean enabled = TChallenges.getInstance().getChallengeManager().isChallengeEnabled(challenge);
                     challengeitem = itemFactory.addLore(challengeitem, "§7Von: §e" + challenge.getAuthor(), "§7Status: " + (enabled ? "§aAktiv" : "§cDeaktiviert"));
+                    ArrayList<String> description = challenge.getDescription();
+                    description.add("§7Status: " + (enabled ? "§aAktiv" : "§cDeaktiviert"));
+                    challengeitem = itemFactory.addLore(challengeitem, description);
 
 
                     inventory.addItem(challengeitem);

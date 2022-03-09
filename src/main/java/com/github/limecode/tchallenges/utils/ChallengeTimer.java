@@ -1,10 +1,10 @@
-package de.webcode.tchallenges.utils;
+package com.github.limecode.tchallenges.utils;
 
-import de.webcode.tchallenges.TChallenges;
-import de.webcode.tchallenges.event.impl.TimerResumeEvent;
-import de.webcode.tchallenges.event.impl.TimerStartEvent;
-import de.webcode.tchallenges.event.impl.TimerStopEvent;
-import de.webcode.tchallenges.utils.file.FileManagement;
+import com.github.limecode.tchallenges.utils.file.FileManagement;
+import com.github.limecode.tchallenges.TChallenges;
+import com.github.limecode.tchallenges.event.impl.TimerResumeEvent;
+import com.github.limecode.tchallenges.event.impl.TimerStartEvent;
+import com.github.limecode.tchallenges.event.impl.TimerStopEvent;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -14,15 +14,25 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ChallengeTimer implements FileManagement {
     private boolean running; // true or false
+    private boolean show;
     private int time;
 
     public ChallengeTimer() {
         this.running = false;
+        this.show = true;
 
         if(getConfigFile().isSet("Timer.time")){
             this.time = getConfigFile().getInt("Timer.time");
         }else this.time = 0;
         run();
+    }
+
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+
+    public boolean isShow() {
+        return show;
     }
 
     public boolean isRunning() {
@@ -49,6 +59,8 @@ public class ChallengeTimer implements FileManagement {
     }
 
     public void sendActionBar() {
+        if(!show) return;
+
         for (Player player : Bukkit.getOnlinePlayers()) {
 
             if (!isRunning()) {
