@@ -162,7 +162,7 @@ Ist die Challenge deaktiviert, werden keine Events für diese Challenge aufgeruf
 ### Einen Command hinzufügen
 
 Commands funktionieren ähnlich wie in Paper. Zunächst wird eine Klasse für den Command erstellt.
-Diese Klasse extended ```TChallengeCommand``` aus ```de.webcode.tchallenges.utils.challenge.api.TChallengeCommand```.
+Diese Klasse extended ```TChallengeCommand``` aus ```TChallengeCommand```.
 Die Klasse muss die ```execute()``` Methode implementieren. Außerdem benötigt die Klasse einen Constructor, der
 den Namen des Commands übergiebt. Für einen ```/mycommand``` ist dieser ```super("mycommand")```. Leerzeichen, Sonderzeichen, sowie Großbuchstaben und Spigot/Paper Farbcodes
 sind nicht erlaubt. Die ganze Command Klasse sieht nun wie folgt aus:

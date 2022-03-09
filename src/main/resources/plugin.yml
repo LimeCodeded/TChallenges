@@ -1,8 +1,8 @@
 name: TChallenges
 version: '${project.version}'
-main: de.webcode.tchallenges.TChallenges
+main: com.github.limecode.tchallenges.TChallenges
 api-version: 1.18
-authors: [ TheWebcode ]
+authors: [ LimeCoded ]
 description: TChallenges Plugin mit mehreren Challenges
 commands:
   suicide:
