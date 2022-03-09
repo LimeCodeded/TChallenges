@@ -18,7 +18,7 @@ public class ServerSettingsMenu extends Menu {
 
     @Override
     public String getMenuName() {
-        return "§e§lServereinstellungen";
+        return "§e§lServer";
     }
 
     @Override
@@ -32,8 +32,10 @@ public class ServerSettingsMenu extends Menu {
             case BARRIER:
                 new SettingMenu(playerMenuUtility).open();
                 break;
+            case REDSTONE:
+                new ManageSettingsMenu(playerMenuUtility).open();
+                break;
             case PLAYER_HEAD:
-
                 String displayName = e.getCurrentItem().getItemMeta().getDisplayName();
                 if (displayName.contains("Spieler")) {
                     new PlayerMenu(playerMenuUtility).open();
@@ -61,12 +63,14 @@ public class ServerSettingsMenu extends Menu {
         ItemStack itemStack = itemFactory.getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDZiYTYzMzQ0ZjQ5ZGQxYzRmNTQ4OGU5MjZiZjNkOWUyYjI5OTE2YTZjNTBkNjEwYmI0MGE1MjczZGM4YzgyIn19fQ==");
         itemStack = itemFactory.setDisplayName(itemStack, "§cComing Soon");
 
+        ItemStack serversettings = itemFactory.create(Material.REDSTONE, "§aServereinstellungen", "§7Generelle Einstellungen für Server & Challenges");
+
         ItemStack back = itemFactory.create(Material.BARRIER, "§cZurück");
 
 
         inventory.setItem(10, worldSettings);
         inventory.setItem(12, players);
-        inventory.setItem(14, itemStack);
+        inventory.setItem(14, serversettings);
         inventory.setItem(16, itemStack);
         inventory.setItem(22, back);
 

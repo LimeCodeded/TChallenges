@@ -16,6 +16,7 @@ import com.github.limecode.tchallenges.utils.challenge.impl.backwardschallenge.c
 import com.github.limecode.tchallenges.utils.file.FileManager;
 import com.github.limecode.tchallenges.utils.menu.PlayerMenuUtilityManager;
 import com.github.limecode.tchallenges.utils.permission.PermissionManager;
+import com.github.limecode.tchallenges.utils.setting.SettingManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,6 +34,7 @@ public final class TChallenges extends JavaPlugin {
     private PermissionManager permissionManager;
     private FileManager fileManager;
     private ChallengeTimer challengeTimer;
+    private SettingManager settingManager;
 
     @Override
     public void onLoad() {
@@ -49,6 +51,7 @@ public final class TChallenges extends JavaPlugin {
         this.challengeManager = new ChallengeManager();
         this.playerMenuUtilityManager = new PlayerMenuUtilityManager();
         this.fileManager = new FileManager();
+        this.settingManager = new SettingManager();
         this.permissionManager = new PermissionManager();
         this.challengeTimer = new ChallengeTimer();
 
@@ -98,6 +101,10 @@ public final class TChallenges extends JavaPlugin {
 
     public ItemFactory getItemFactory() {
         return itemFactory;
+    }
+
+    public SettingManager getSettingManager() {
+        return settingManager;
     }
 
     public Eventlistener getEventlistener() {
